@@ -5,6 +5,7 @@
     use App\Models\Post;
     use \App\Models\Category;
     use \App\Models\User;
+    use \App\Http\Controllers\PostsController;
     /*
     |--------------------------------------------------------------------------
     | Web Routes
@@ -16,18 +17,9 @@
     |
     */
 
-    Route::get('/', function () {
-        return view('welcome', [
-            "posts" => Post::latest()->with("category","author")->get()
-        ]);
-    });
+    Route::get('/',[PostsController::class,'index'])->name('home');
+    Route::get('/posts/{post:slug}',[PostsController::class,'show'])->whereNumber(1);
 
-
-    Route::get('/posts/{post:slug}', function (Post $post) {
-        return view('post', [
-            "post" => $post
-        ]);
-    })->whereNumber(1);
     Route::get('/categories/{category:slug}', function (Category $category) {
         return view('welcome', [
             "posts" => $category->posts->load(["category", "author"])
