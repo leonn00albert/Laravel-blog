@@ -12,8 +12,8 @@ class PostsController extends Controller
     {
         $posts = Post::latest();
         return view('welcome', [
-            "posts" => Post::latest()->filter(request(["search","category"]))->get(),
-            "categories" => Category::all()
+            "posts" => Post::latest()->filter(request(["search","category","author"]))->get(),
+
         ]);
     }
 
